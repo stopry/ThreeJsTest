@@ -1,6 +1,12 @@
-var camera,scene,renderer,mesh;
-init();
-animate();
+var camera,scene,renderer,mesh,texture;
+
+
+function start() {
+  clock();
+  init();
+  animate();
+}
+
 function init() {
   renderer = new THREE.WebGLRenderer({
     antialias:true
@@ -12,31 +18,18 @@ function init() {
     70,//视角
     window.innerWidth/window.innerHeight,
     1,
-    100
+    1000
   );
-  camera.position.z = 100;
+  camera.position.z = 400;
   scene = new THREE.Scene();
 
-  //A begin
-  var geometry = new THREE.PlaneGeometry(500,300,1,1);//创建几何体
-  geometry.vertices[0].uv = new THREE.Vector2(0,0);
-  geometry.vertices[1].uv = new THREE.Vector2(1,0);
-  geometry.vertices[2].uv = new THREE.Vector2(1,1);
-  geometry.vertices[3].uv = new THREE.Vector2(0,1);
-  //A end
-
-  // B begin
-  //加载纹理
-  var texture = THREE.ImageUtils.loadTexture('../texure/meinv.png',null,function (t) {
-    console.log(t);
-  });
-  //将图片用于材料
-  var material = new THREE.MeshBasicMaterial({
-    map:texture
-  });
+  var geometry = new THREE.CubeGeometry(150,150,150);//创建几何体
+  texture = new THREE.Texture(canvas);
+  var material = new THREE.MeshBasicMaterial({map:texture});
+  texture.needsUpdate = true;
   mesh = new THREE.Mesh(geometry,material);
   scene.add(mesh);
-  // B end
+
   window.addEventListener('resize',onWindowResize,!1);
 }
 
@@ -48,6 +41,15 @@ function onWindowResize() {
 }
 
 function animate() {
+  texture.needsUpdate = true;
+  mesh.rotation.x -= 0.01;
+  mesh.rotation.y -= 0.01;
+
   requestAnimationFrame(animate);
   renderer.render(scene,camera);
 }
+
+window.onload = function () {
+  start();
+  console.log(1);
+};
