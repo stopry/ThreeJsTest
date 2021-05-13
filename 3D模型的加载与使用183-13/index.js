@@ -7,8 +7,11 @@ window.onload = function () {
 };
 
 function init() {
+
+
+
   camera = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.01,1e10);
-  camera.position.z = 0.2;
+  camera.position.z = 10;
 
   //light
   var dirLight = new THREE.DirectionalLight(0xffffff);
@@ -70,5 +73,5 @@ function animate() {
   requestAnimationFrame(animate);
 
   renderer.render(scene,camera);
-  control.update();
+  control&&control.update&&control.update();
 }

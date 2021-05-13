@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>纹理，不一样的皮肤(一)</title>
+  <script src="//cdn.bootcdn.net/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="../libs/three.js"></script>
+  <style>
+    #canvas-frame {
+      border: none;
+      cursor: pointer;
+      width: 600px;
+      height: 600px;
+      background-color: #eeeeee;
+    }
+  </style>
+</head>
+<body>
+<canvas id="canvas-frame"></canvas>
+</body>
+<script id="vs" type="x-shader/x-vertex">
+    varying vec2 vUv; //定义一个vUv变量 将传递到片元着色器中
+    void main()
+    {
+      vUv = uv; //uv是Three.js帮你传进来的一个很有用的属性，它代表了该顶点在UV映射时的横纵坐标。
+      //投影矩阵 模型矩阵
+      gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0);
+    }
+
+</script>
+<script id="fs" type="x-shader/x-fragment">
+   varying vec2 vUv;//定点着色器传过来等变量需要再定义一下
+    void main() {
+        gl_FragColor = vec4(vUv.x, vUv.y, 1.0, 1.0);
+    }
+</script>
+
+<script src="./index.js"></script>
+</html>
